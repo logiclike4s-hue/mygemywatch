@@ -1,0 +1,23 @@
+name: MyGeminiWatch
+
+options:
+  deploymentTarget:
+    watchOS: "10.0"
+
+targets:
+  MyGeminiWatch:
+    type: application
+    platform: watchOS
+    sources:
+      - MyGeminiWatchApp.swift
+      - ContentView.swift
+      - ChatStore.swift
+      - GeminiClient.swift
+      - SettingsView.swift
+    info:
+      path: Info.plist
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.example.MyGeminiWatch
+      SWIFT_VERSION: 5.0
+      TARGETED_DEVICE_FAMILY: 4
+      CODE_SIGNING_ALLOWED: NO

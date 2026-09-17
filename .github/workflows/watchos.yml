@@ -1,0 +1,33 @@
+name: Build Apple Watch app
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build watchOS app
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: >-
+          xcodebuild
+          -project MyGeminiWatch.xcodeproj
+          -scheme MyGeminiWatch
+          -sdk watchsimulator
+          -destination 'generic/platform=watchOS Simulator'
+          -configuration Debug
+          CODE_SIGNING_ALLOWED=NO
+          GEMINI_API_KEY="$GEMINI_API_KEY"
+          build
