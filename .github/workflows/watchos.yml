@@ -19,22 +19,34 @@ jobs:
       - name: Generate Xcode project
         run: xcodegen generate
 
+      - name: Inspect generated project
+        run: xcodebuild -project MyGeminiWatch.xcodeproj -list
+
       - name: Build watchOS app
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: >-
-          xcodebuild
-          -project MyGeminiWatch.xcodeproj
-          -scheme MyGeminiWatch
-          -sdk watchsimulator
-          -destination 'generic/platform=watchOS Simulator'
-          -configuration Debug
-          -derivedDataPath build
-          CODE_SIGNING_ALLOWED=NO
-          GEMINI_API_KEY="$GEMINI_API_KEY"
-          build
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project MyGeminiWatch.xcodeproj \
+            -scheme MyGeminiWatch \
+            -sdk watchsimulator \
+            -destination 'generic/platform=watchOS Simulator' \
+            -configuration Debug \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            GEMINI_API_KEY="$GEMINI_API_KEY" \
+            build 2>&1 | tee xcodebuild.log
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcodebuild-log
+          path: xcodebuild.log
 
       - name: Upload watchOS app
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: MyGeminiWatch-watchsimulator
