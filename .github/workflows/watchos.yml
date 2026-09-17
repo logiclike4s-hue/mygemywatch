@@ -37,6 +37,15 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             GEMINI_API_KEY="$GEMINI_API_KEY" \
             build 2>&1 | tee xcodebuild.log
+        - name: Show build errors in summary
+          if: always()
+          run: |
+            {
+              echo '## Xcode diagnostics'
+              echo '```text'
+              grep -iE 'error:|fatal error:|BUILD FAILED|BUILD SUCCEEDED' xcodebuild.log | tail -n 80 || true
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload build log
         if: always()
