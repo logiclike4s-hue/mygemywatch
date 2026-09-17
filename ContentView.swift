@@ -124,7 +124,7 @@ private struct MessageBubble: View {
     private var bubble: some View {
         Text(message.text)
             .font(.caption)
-            .foregroundStyle(message.role == .assistant ? .primary : .white)
+            .foregroundStyle(message.role == .assistant ? Color.primary : Color.white)
             .padding(.horizontal, 9)
             .padding(.vertical, 6)
             .background(message.role == .assistant ? Color.gray.opacity(0.22) : Color.blue)
