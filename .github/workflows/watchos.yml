@@ -23,8 +23,6 @@ jobs:
         run: xcodebuild -project MyGeminiWatch.xcodeproj -list
 
       - name: Build watchOS app
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           set -o pipefail
           xcodebuild \
@@ -35,7 +33,6 @@ jobs:
             -configuration Debug \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
-            GEMINI_API_KEY="$GEMINI_API_KEY" \
             build 2>&1 | tee xcodebuild.log
         - name: Show build errors in summary
           if: always()
