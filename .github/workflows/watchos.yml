@@ -3,6 +3,7 @@ name: Build Apple Watch app
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -28,6 +29,13 @@ jobs:
           -sdk watchsimulator
           -destination 'generic/platform=watchOS Simulator'
           -configuration Debug
+          -derivedDataPath build
           CODE_SIGNING_ALLOWED=NO
           GEMINI_API_KEY="$GEMINI_API_KEY"
           build
+
+      - name: Upload watchOS app
+        uses: actions/upload-artifact@v4
+        with:
+          name: MyGeminiWatch-watchsimulator
+          path: build/Build/Products/Debug-watchsimulator/MyGeminiWatch.app

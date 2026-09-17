@@ -12,11 +12,13 @@
 
 ## Проверка через GitHub
 
-Файл `.github/workflows/watchos.yml` автоматически запускает сборку на macOS runner при каждом push и pull request. Для проверки:
+Файл `.github/workflows/watchos.yml` запускает сборку на macOS runner при каждом push и pull request. Его также можно запустить вручную:
 
 1. Создай репозиторий на GitHub.
 2. Выполни `git init`, добавь файлы и отправь их в репозиторий.
 3. Открой вкладку **Actions** и выбери workflow `Build Apple Watch app`.
+4. Нажми **Run workflow**, выбери ветку `main` и снова нажми **Run workflow**.
+5. После успешной сборки открой запуск workflow, прокрути страницу вниз до **Artifacts** и скачай `MyGeminiWatch-watchsimulator`.
 
 GitHub сам установит XcodeGen, сгенерирует Xcode-проект и выполнит сборку без локального Mac.
 
